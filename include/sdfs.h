@@ -4,7 +4,28 @@
 #include "vec3.h"
 #include "mat3.h"
 
-/* SDFs */
+/* RAY DATA MANAGEMENT */
+
+typedef struct{
+    vec3 color;
+} material;
+
+typedef struct{
+    double distance;
+    material* material;
+} raydata;
+
+
+void bubble_objects(raydata* a, double b_distance, material* b_id){
+    if (a->distance > b_distance){
+        a->distance = b_distance;
+        a->material = b_id;
+    }
+}
+
+
+
+/* SIGNED DISTANCE FUNCTIONS */
 double sdBoxFrame( vec3* p, vec3* b, double e )
 {
     // p = abs(p  )-b;
@@ -36,29 +57,23 @@ double sdBoxFrame( vec3* p, vec3* b, double e )
             );
 }
 
+double sdBox( vec3* p, vec3* b )
+{
+  vec3 q = vec3_abs(p);
+  q = vec3_sub(&q, b);
+  q.x = q.x >= 0 ? q.x : 0.0;
+  q.y = q.y >= 0 ? q.y : 0.0;
+  q.z = q.z >= 0 ? q.z : 0.0;
+
+  return vec3_magnitude(&q) + fmin(fmax(q.x, fmax(q.y,q.z)), 0.0);
+}
+
 double sdSphere(vec3* p, double r){
   return vec3_magnitude(p) - r;
 }
 
 double sdPlane(vec3* p){
   return p->y;
-}
-
-// vec3 sphere_offset = {0, 1, 10};
-vec3 box_offset = {0, 2, 2};
-vec3 box_dimensions = {1, 1, 1};
-
-double world_sdf(vec3* p){
-    //vec3 sphere_p = vec3_sub(p, &sphere_offset);
-    //double sphere = sdSphere(&sphere_p, 1.0);
-
-    double plane = sdPlane(p);
-
-    vec3 box_p = vec3_sub(p, &box_offset);
-    double box = sdBoxFrame(&box_p, &box_dimensions, 0.25);
-
-    return fmin(plane, box);
-    //return p->y;
 }
 
 #endif // SDFS_H_

@@ -6,3 +6,4 @@ Rendering 3D objects in the terminal; Hillarity ensues.
 ![The Box As Intended](./gifs/TR-full_color.gif)
 ![Rotation](./gifs/TR-cube_rotation.gif)
 ![Spooky Hallway](./gifs/TR-infinite_hallway.gif)
+![Spooky Hallway](./gifs/TR-final.gif)

@@ -92,6 +92,16 @@ static vec3 vec3_add_s(const vec3* a, const double b){
     return v;
 }
 
+static vec3 vec3_lerp(const vec3* a, const vec3* b, const double p){
+    if (p == 0){return *a;}
+    vec3 v = {
+        .x = (a->x + b->x) * p,
+        .y = (a->y + b->y) * p,
+        .z = (a->z + b->z) * p
+    };
+    return v;
+}
+
 static vec3 vec3_sub(const vec3* a, const vec3* b){
  	vec3 v = {
       .x = a->x - b->x,
