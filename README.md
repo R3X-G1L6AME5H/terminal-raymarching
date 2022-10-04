@@ -65,3 +65,16 @@ However, there was another problem, and that problem was due to clearing the scr
 So I went back to vim's `term.c` in search of a more fitting code. Then, I stumbled upon the "move cursor" ANSI code. If instead of clearing the screen, we zero out the cursor; return it to the begining, and then draw the next frame. Then, the troubled area would be a bit out dated every frame, but at least it would have a value. That way the redraw would not be as, if at all, noticable. By looking at the examples, you can see that I was correct.
 
 ### Raymarching
+
+![RaymarchExample](https://user-images.githubusercontent.com/88734659/193825690-e78dfaaa-4e44-434b-83b7-b642279244d5.png)
+
+#### Camera
+So first we have to figure out the camera. Luckly, it is relatively simple. We have to pick our camera origin $\vec{co}$, and our camera direction $\vec{cd}$. Now, we can build our camera. The general idea of a camera is to collect the rays of light within its Field of View(FOV), and project it onto a flat surace like our screen. Our screen has a width $w$, and a height $h$. We have to send out rays for every pixel on our screen and recieve a color value for our camera to work.
+
+We can have two for loops go thourgh all the values in $$
+$\vec{co}+\vec{b}$
+
+#### Getting the distances
+#### Object Materials
+#### Normal based shade
+#### Light and Shadow
