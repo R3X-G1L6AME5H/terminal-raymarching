@@ -69,10 +69,9 @@ So I went back to vim's `term.c` in search of a more fitting code. Then, I stumb
 ![RaymarchExample](https://user-images.githubusercontent.com/88734659/193825690-e78dfaaa-4e44-434b-83b7-b642279244d5.png)
 
 #### Camera
-So first we have to figure out the camera. Luckly, it is relatively simple. We have to pick our camera origin $\vec{co}$, and our camera direction $\vec{cd}$. Now, we can build our camera. The general idea of a camera is to collect the rays of light within its Field of View(FOV), and project it onto a flat surace like our screen. Our screen has a width $w$, and a height $h$. We have to send out rays for every pixel on our screen and recieve a color value for our camera to work.
+So first we have to figure out the camera. Luckly, it is relatively simple. We have to pick our camera origin $\vec{co}$, and calculate our ray direction $\vec{rd}$. Now, we can build our camera. The general idea of a camera is to collect the rays of light within its Field of View(FOV), and project it onto a flat surace like our screen. Our screen has a width $w$, and a height $h$. We have to send out rays for every pixel on our screen and recieve a color value for our camera to work.
 
-We can have two for loops go thourgh all the values in $$
-$\vec{co}+\vec{b}$
+We can have two for loops go through all the values $V = \\{ (x,\ y) \in \mathbb{N}^2\ \mid\ -\frac{w}{2} \le x \le \frac{w}{2},\ -\frac{h}{2} \le y \le \frac{h}{2} \\}$. We then normalize these values $\vec{v} \in V$, converting them in to the inteval of $[-1,\ 1]$, by dividing them like so: $\vec{v}\ *\ {\frac{w}{2},\ \frac{h}{2} }$. To get the ray that is going to shoot out of the camera point we merely plug these normalized values into a vector $\vec{rd} = [x,\ y,\ 1]$.
 
 #### Getting the distances
 #### Object Materials
