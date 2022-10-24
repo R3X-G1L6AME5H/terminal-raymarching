@@ -69,11 +69,26 @@ So I went back to vim's `term.c` in search of a more fitting code. Then, I stumb
 ![RaymarchExample](https://user-images.githubusercontent.com/88734659/193825690-e78dfaaa-4e44-434b-83b7-b642279244d5.png)
 
 #### Camera
-So first we have to figure out the camera. Luckly, it is relatively simple. We have to pick our camera origin $\vec{co}$, and calculate our ray direction $\vec{rd}$. Now, we can build our camera. The general idea of a camera is to collect the rays of light within its Field of View(FOV), and project it onto a flat surace like our screen. Our screen has a width $w$, and a height $h$. We have to send out rays for every pixel on our screen and recieve a color value for our camera to work.
+So first we have to figure out the camera. Luckly, it is relatively simple. **We pick** our camera origin $\vec{co}$, and calculate our ray direction $\vec{rd}$. How do we calculate $\vec{rd}$? Well, the general idea of a camera is to collect the color value of all pixels within its Field of View(FOV),  and project it onto a flat surace like our screen. In other words we take a vector $\vec{rd}$ that goes from the focal point to the position somewhere on a screen in front of it (like in the picture above), and we go in it's direction until it hits something. 
 
-We can have two for loops go through all the values $V = \\{ (x,\ y) \in \mathbb{N}^2\ \mid\ -\frac{w}{2} \le x \le \frac{w}{2},\ -\frac{h}{2} \le y \le \frac{h}{2} \\}$. We then normalize these values $\vec{v} \in V$, converting them in to the inteval of $[-1,\ 1]$, by dividing them like so: $\vec{v}\ *\ {\frac{w}{2},\ \frac{h}{2} }$. To get the ray that is going to shoot out of the camera point we merely plug these normalized values into a vector $\vec{rd} = [x,\ y,\ 1]$.
+Our screen has a width $w$, and a height $h$. We have to send out rays for every pixel on our screen and recieve a color value for our camera to work.
+
+We can have two for loops go through all the values $V = \\{ (x,\ y) \in \mathbb{N}^2\ \mid\ -\frac{w}{2} \le x \le \frac{w}{2},\ -\frac{h}{2} \le y \le \frac{h}{2} \\}$. 
+
+We then normalize these values $\vec{v} \in V$, converting them in to the inteval of $[-1,\ 1]$, by dividing them like so: $\vec{v}\ * \ [\frac{w}{2},\ \frac{h}{2} ]$.
+
+To get the ray that is going to shoot out of the camera point we merely plug these normalized values into a vector $\vec{rd} = [x,\ y,\ 1]$. Finally we normalize this vector i.e. make it so that it's magnitude is 1. This will be important later.
+
+If we need to rotate our camera we merely need to multiply $\vec{rd}$ with a rotation matrix R, and then continue the steps below. The explaination of how to calculate a 3x3 rotation matrix can be found [here](http://www.songho.ca/opengl/gl_anglestoaxes.html).
+
+Now we have a way to calculate $\vec{rd}$ for every pixel on screen, but how do we "go in it's direction until it hits something"? Notice first that this is actually two questions: "How to go in its direction", and: "When does it hit something?".
+
+For the first question its rather simple. First we need to recall how $\vec{rd}$ is a unit vector. $1 * x = x$, and so too applies to a vector of magnitude 1, because, when a vector is multiplied by a scalar, only it's magnitude changes. So to get where the vector is suposed to be (lets call this $\vec{T}$, as in "Target") we simply multiply $\vec{rd}$ with the (distance traveled) scalar $d$: $\vec{T}\ =\ \vec{rd} * d$.
+
+But, $\vec{T}$ starts of at the origin. Is that where we want to start off? We have to account for where the vector starts off from(recall $\vec{co}$). The  completed formula looks like this: $\vec{T}\ =\ \vec{co} + \vec{rd} * d$.
 
 #### Getting the distances
+Now, lets tackle the second question: When does it hit something? Well, what does it mean to hit? To have $\vec{T}$ tangentialy touch the surface of a body? Maybe not so precise. It is a hit when $\vec{T}$ is marginally far away from the surface of the body.
 #### Object Materials
 #### Normal based shade
 #### Light and Shadow
